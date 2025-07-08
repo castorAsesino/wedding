@@ -17,6 +17,50 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     />
     <style>
+        /* Estilos específicos para el slider que no afectarán otros elementos */
+  .slider-container {
+    width: 100%;
+    max-width: 800px; /* Ajusta según necesites */
+    margin: 0 auto;
+    position: relative;
+    overflow-x: auto; /* Permite scroll horizontal */
+    scroll-behavior: smooth; /* Desplazamiento suave */
+    -webkit-overflow-scrolling: touch; /* Mejor scroll en móviles */
+    scrollbar-width: none; /* Oculta scrollbar en Firefox */
+    padding: 20px 0;
+  }
+  
+  .slider-container::-webkit-scrollbar {
+    display: none; /* Oculta scrollbar en Chrome/Safari */
+  }
+  
+  .slider-track {
+    display: flex;
+    gap: 15px; /* Espacio entre imágenes */
+    padding: 0 30%; /* Centrado inicial */
+    transition: transform 0.5s ease, opacity 0.5s ease;
+  }
+  
+  .gallery-slide {
+    flex: 0 0 auto;
+    width: 300px; /* Ancho fijo para cada slide */
+    opacity: 0.6; /* Opacidad para slides no centrales */
+    transition: opacity 0.5s ease;
+  }
+  
+  .gallery-slide img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+  
+  /* Efecto para el slide central */
+  .gallery-slide.active {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  
       .cross {
         position: absolute;
         top: 50%;
@@ -965,31 +1009,49 @@
       <h2 class="section-title">Nuestra Galería</h2>
      
     
-      <div class="gallery">
-       
-       
-        <div class="gallery-item">
-          <img src="1.jpg" alt="Juan y Silvia" />
-        </div>
-      
+       <div class="slider-container">
+    <div class="slider-track">
+      <div class="gallery-slide active">
+        <img src="1.jpg" alt="Juan y Silvia" />
       </div>
-      <div class="gallery">
-        <div class="gallery-item">
-          <img src="5.png" alt="Juan y Silvia" />
-        </div>
+    
+      <div class="gallery-slide">
+        <img src="4.jpeg" alt="Juan y Silvia" />
       </div>
-       <div class="gallery">       
-        <div class="gallery-item">
-          <img src="4.jpeg" alt="Juan y Silvia" />
-        </div>
+      <div class="gallery-slide">
+        <img src="5.png" alt="Juan y Silvia" />
+      </div>
+      <div class="gallery-slide">
+        <img src="6.jpg" alt="Juan y Silvia" />
+      </div>
+      <div class="gallery-slide">
+        <img src="7.jpeg" alt="Juan y Silvia" />
+      </div>
+      <div class="gallery-slide">
+        <img src="8.jpeg" alt="Juan y Silvia" />
+      </div>
+      <div class="gallery-slide">
+        <img src="9.jpeg" alt="Juan y Silvia" />
+      </div>
+      <div class="gallery-slide">
+        <img src="10.jpeg" alt="Juan y Silvia" />
       </div>
 
-      <div class="gallery">       
-        <div class="gallery-item">
-          <img src="6.jpg" alt="Juan y Silvia" />
-        </div>
-      
+       <div class="gallery-slide">
+        <img src="11.jpeg" alt="Juan y Silvia" />
       </div>
+
+
+       <div class="gallery-slide">
+        <img src="12.jpeg" alt="Juan y Silvia" />
+      </div>
+
+
+       <div class="gallery-slide">
+        <img src="13.jpeg" alt="Juan y Silvia" />
+      </div>
+    </div>
+  </div>
     </section>
 
     <footer
@@ -1194,7 +1256,6 @@
         });
       });
     </script>
-
     <script>
       document.addEventListener("DOMContentLoaded", () => {
         const dressCodeModal = document.getElementById("dressCodeModal");
@@ -1218,5 +1279,37 @@
         }
       });
     </script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const slider = document.querySelector('.slider-container');
+  const slides = document.querySelectorAll('.gallery-slide');
+  
+  // Centrar el slide al hacer scroll
+  slider.addEventListener('scroll', function() {
+    const sliderCenter = slider.scrollLeft + (slider.offsetWidth / 2);
+    
+    slides.forEach(slide => {
+      const slideCenter = slide.offsetLeft + (slide.offsetWidth / 2);
+      const distance = Math.abs(slideCenter - sliderCenter);
+      
+      // Calcula opacidad basada en la distancia al centro
+      const opacity = Math.max(0.6, 1 - (distance / slider.offsetWidth));
+      slide.style.opacity = opacity;
+      
+      // Añade/quita clase active
+      if (distance < slide.offsetWidth / 2) {
+        slide.classList.add('active');
+      } else {
+        slide.classList.remove('active');
+      }
+    });
+  });
+  
+  // Inicialización
+  slider.dispatchEvent(new Event('scroll'));
+});
+</script>
+
   </body>
 </html>
